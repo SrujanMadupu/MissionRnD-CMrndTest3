@@ -35,7 +35,38 @@ struct node{
 	struct node *left;
 	struct node *right;
 };
+struct node* add_node(int data){
+	struct node *temp = (struct node*)malloc(sizeof(struct node));
+	temp->left = NULL;
+	temp->data = data;
+	temp->right = NULL;
+	return temp;
+}
+void find_location(struct node *r1, int data){
+	  if (data < r1->data){
+		  if (r1->left == NULL){
+			  r1->left = add_node(data);
+			  return;
+		  }
+		find_location(r1->left, data);
+	}
+	else if (data > r1->data){
+		if (r1->right == NULL){
+			r1->right = add_node(data);
+			return;
+		}
+		find_location(r1->right, data);
+	}
+}
 
+void inorder_travelser(struct node *r2, struct node *r1){
+	if (!r2){
+		return;
+	}
+	inorder_travelser(r2->left, r1);
+    find_location(r1, r2->data);
+	inorder_travelser(r2->right, r1);
+}
 void merge_two_bst(struct node *root1, struct node *root2){
-	
+	inorder_travelser(root2, root1);
 }

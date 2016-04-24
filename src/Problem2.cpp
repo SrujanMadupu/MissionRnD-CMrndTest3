@@ -70,7 +70,83 @@ struct node{
 	struct node *left;
 	struct node *right;
 };
-
+int Total_nodes(struct node *root){
+	if (root != NULL){
+		return 1 + Total_nodes(root->left) + Total_nodes(root->right);
+	}
+	else{
+		return 0;
+	}
+}
+int find_length(struct node_dll *head){
+	int l = 0;
+	while (head->next != NULL){
+		l++;
+		head = head->next;
+	}
+	return l;
+}
+int EqualorNot(struct node_dll *head, struct node *root, int i, int j){
+	int mid = (i + j) / 2;
+	while (mid >= 0){
+		head = head->next;
+		mid = mid - 1;
+	}
+	if (root->data == head->data){
+		return 1;
+	}
+	return 0;
+}
+int is_identical_Util(struct node_dll *head, struct node *root,int start,int end){
+	if (!root){
+		return 1;
+	}
+	int en = (start + end) / 2;
+	if (EqualorNot(head, root, start, end) && is_identical_Util(head, root->left, start, en) && is_identical_Util(head, root->right, (start+en)/2, en)){
+		return 1;
+	}
+	else{
+		return 0;
+	}
+   
+}
+int inorderrecursion(struct node *root, int *arr, int i){
+	if (root != NULL){
+		i = inorderrecursion(root->left, arr, i);
+		arr[i++] = root->data;
+		i = inorderrecursion(root->right, arr, i);
+		return i;
+	}
+	else{
+		return i;
+	}
+}
+int check(struct node_dll *head, int *temp){
+	int i = 0;
+	while (head != NULL){
+		if (temp[i] != head->data){
+			return 0;
+		}
+		i++;
+		head = head->next;
+	}
+	return 1;
+}
 int is_identical(struct node_dll *head, struct node *root){
-	return -1;
+	if (!root || !head){
+		return -1;
+	}
+	//int len = find_length(head);
+	//int mid = len / 2;
+	//return is_identical_Util(head, root,0,len);
+
+	int N = Total_nodes(root);
+	int *temp = (int*)malloc(sizeof(int)*N);
+	
+	int j = inorderrecursion(root, temp, 0);
+	for (int i = 0; i < N; i++){
+		printf("%d ", temp[i]);
+	}
+	return check(head, temp);
+
 }
