@@ -136,10 +136,12 @@ int is_identical(struct node_dll *head, struct node *root){
 	if (!root || !head){
 		return -1;
 	}
+	//First Method
 	//int len = find_length(head);
 	//int mid = len / 2;
 	//return is_identical_Util(head, root,0,len);
 
+	//Second Method
 	int N = Total_nodes(root);
 	int *temp = (int*)malloc(sizeof(int)*N);
 	

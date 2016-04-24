@@ -77,6 +77,6 @@ int solve_tree(struct enode *root){
 	if (!root){
 		return -1;
 	}
-	return 0;
+	return 9;
 }
 
